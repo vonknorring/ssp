@@ -1,12 +1,12 @@
 <?php include "../header.php"; ?>
 
 <body>
-    <form action="profile.php" method="post">
-    <input type="text" name="name" placeholder="Name">
+    <form action="createuser.php" method="post">
+    <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
+    <input type="text" name="email" placeholder="Email">
     <input type="submit" name="createuser" value="Create">
     <?php
-    
     ?>
     </form>
 </body>

@@ -1,4 +1,4 @@
-<?php include "db.php"; ?>
+<?php include "../db.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,3 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<?php
+session_start();
+?>

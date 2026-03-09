@@ -1,13 +1,13 @@
 <?php
-    $servername="localhost";
-    $username="root";
-    $password="";
-    $dbname="ssp";
-    
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $server = "localhost";
+    $user = "root";
+    $pass = "";
+    $dbname = "ssp";
 
-    if($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+
+    $conn = mysqli_connect($server, $user, $pass, $dbname);
+    if(!$conn) {
+        die("connection failure:" . mysqli_connect_error());}
+        
 
 ?>
