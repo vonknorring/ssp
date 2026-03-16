@@ -5,6 +5,7 @@ if(!isset($_SESSION['userid'])){
     header("Location:register.php");
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,5 +18,6 @@ if(!isset($_SESSION['userid'])){
     Välkommen <?php echo $_SESSION["name"]; ?> här är din profil med statistik:
     <br/>
     spela här:<a href="game.php">SPELA</a>
+
 </body>
 </html>
