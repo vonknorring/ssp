@@ -13,11 +13,24 @@ if(isset($_POST["choice"])){
     $choices = ["rock","paper","scissors"];
     $bot =  $choices[array_rand($choices)];
     $player = $_POST["choice"];
-
-    $stmt = $conn->prepare("INSERT INTO gamestats(rock, paper, scissors, userid, win, tie, lose) VALUE(?,?,?,?,?,?,?)");
+    if($player == $bot){
+    $outcome = "tie";
+    }
+    elseif(
+        ($player=="rock" && $bot=="scissors") ||
+        ($player=="paper" && $bot=="rock") ||
+        ($player=="scissors" && $bot=="paper")
+    ){
+        $outcome = "win";
+    }
+    else{
+        $outcome = "lose";
+    }
+    $stmt = $conn->prepare("INSERT INTO gamestats(rock, paper, scissors, userid, win, tie, lose) VALUES(?,?,?,?,?,?,?)");
     $weapon = array("rock" => 0,"paper" => 0,"scissors" => 0);
     $weapon[$player] = 1;
     $gameOutcome = array("win"=>0,"tie"=>0,"lose"=>0);
+    $gameOutcome[$outcome] = 1;
     $stmt->bind_param("iiiiiii", $weapon["rock"],$weapon["paper"],$weapon["scissors"], $userid,$gameOutcome["win"],$gameOutcome["tie"],$gameOutcome["lose"]);
     $stmt->execute();
     $stmt->close();
@@ -51,6 +64,6 @@ $hidden = "playagain";
 <a href="#" class="<?php echo $hidden; ?>">play again?</a>
 <form class="<?php echo $hidden; ?>" method="post">
     <button name="choice" value="rock">Sten</button>
-    <button name="choice" value="paper">Sax</button>
-    <button name="choice" value="scissors">Påse</button>
+    <button name="choice" value="paper">Påse</button>
+    <button name="choice" value="scissors">sax</button>
 </form>
