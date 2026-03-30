@@ -20,5 +20,22 @@ if(!isset($_SESSION['userid'])){
     <br/>
     spela här:<a href="game.php">SPELA</a>
 
+    <?php 
+
+    $sql = "SELECT * from gamestats
+            INNER JOIN botstats ON gamestats.gameid = botstats.gameid
+            WHERE gamestats.userid={$_SESSION["userid"]} 
+            ORDER BY gamestats.gameid DESC LIMIT 5";
+    $results = $conn->query($sql);
+    if($results->num_rows > 0) {
+        while($gameres = $results->fetch_assoc()){
+            echo "<br/>";
+            var_dump($gameres);
+            
+        }
+    }
+    
+    ?>
+
 </body>
 </html>

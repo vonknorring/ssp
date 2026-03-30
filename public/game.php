@@ -35,8 +35,32 @@ if(isset($_POST["choice"])){
     $stmt->execute();
     $stmt->close();
     $last_id = $conn->insert_id;
+    $botWeapon = array("b-rock"=>0,"b-paper"=>0,"b-scissors"=>0);
+    $botWeapon[$bot] = 1;
+
+    $stmt = $conn->prepare("INSERT INTO botstats (gameid, userid, b-rock, b-paper, b-scissors) VALUES (?,?,?,?,?)");
+
+    $stmt->bind_param("iiiii",
+        $last_id,
+        $userid,
+        $botWeapon["rock"],
+        $botWeapon["paper"],
+        $botWeapon["scissors"]
+    );
+
+    $stmt->execute();
+
+    // lägg till total stats på usern.
+    // hitta vilket fält du ska uppdatera
+    // gör ett nytt mysql req
+    // UPDATE table SET field = field + 1 WHERE id = 1
+
+
+    $stmt->close();
     
 $sql = "SELECT * FROM gamestats WHERE gameid=$last_id";
+
+    
 
 $result = $conn->query($sql);
 var_dump($result->fetch_assoc());
