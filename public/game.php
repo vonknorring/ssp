@@ -35,28 +35,40 @@ if(isset($_POST["choice"])){
     $stmt->execute();
     $stmt->close();
     $last_id = $conn->insert_id;
-    $botWeapon = array("b-rock"=>0,"b-paper"=>0,"b-scissors"=>0);
-    $botWeapon[$bot] = 1;
+    $botWeapon = array("b-rock"=>0, "b-paper"=>0, "b-scissors"=>0);
+    $botWeapon["b-".$bot] = 1;
 
-    $stmt = $conn->prepare("INSERT INTO botstats (gameid, userid, b-rock, b-paper, b-scissors) VALUES (?,?,?,?,?)");
-
+    $stmt = $conn->prepare("INSERT INTO botstats (gameid, userid, `b-rock`, `b-paper`, `b-scissors`) VALUES (?,?,?,?,?)");
     $stmt->bind_param("iiiii",
         $last_id,
         $userid,
-        $botWeapon["rock"],
-        $botWeapon["paper"],
-        $botWeapon["scissors"]
+        $botWeapon["b-rock"],
+        $botWeapon["b-paper"],
+        $botWeapon["b-scissors"]
     );
-
     $stmt->execute();
+    $stmt->close();
+
+    $field = "Total_" . $player;
+    $conn->query("UPDATE users SET $field = $field + 1 WHERE userid = $userid");
+
+    if($outcome == "win"){
+    $conn->query("UPDATE users SET Total_win = Total_win + 1 WHERE userid = $userid");
+    }
+    elseif($outcome == "lose"){
+        $conn->query("UPDATE users SET Total_lose = Total_lose + 1 WHERE userid = $userid");
+    }
+    else {
+        $conn->query("UPDATE users SET Total_tie = Total_tie + 1 WHERE userid = $userid");
+    }
+
+    $conn->query("UPDATE users SET Total_games = Total_games + 1 WHERE userid = $userid");
+
 
     // lägg till total stats på usern.
     // hitta vilket fält du ska uppdatera
     // gör ett nytt mysql req
     // UPDATE table SET field = field + 1 WHERE id = 1
-
-
-    $stmt->close();
     
 $sql = "SELECT * FROM gamestats WHERE gameid=$last_id";
 
@@ -73,19 +85,16 @@ $hidden = "playagain";
 
 
 ?>
+
 <style>
-    a{
-        display:none;
-    }
-    a.playagain {
-        display:block;
-    }
-    form.playagain{
-        display:none
-    }
+    a{ display:none; }
+    a.playagain { display:block; }
+    form.playagain { display:none; }
 </style>
 
+
 <a href="#" class="<?php echo $hidden; ?>">play again?</a>
+<a href="/profile.php" class="<?php echo $hidden; ?>">Till profilen</a>
 <form class="<?php echo $hidden; ?>" method="post">
     <button name="choice" value="rock">Sten</button>
     <button name="choice" value="paper">Påse</button>

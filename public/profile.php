@@ -5,7 +5,7 @@ if(!isset($_SESSION['userid'])){
     header("Location:register.php");
     exit;
 }
-
+$userid = $_SESSION["userid"];
 
 ?>
 <!DOCTYPE html>
@@ -18,9 +18,21 @@ if(!isset($_SESSION['userid'])){
 <body>
     Välkommen <?php echo $_SESSION["name"]; ?> här är din profil med statistik:
     <br/>
-    spela här:<a href="game.php">SPELA</a>
+    spela här:<a href="game.php">SPELA<br></a>
+    logga ut här: <a href="logout.php">loggout<br></a>
 
     <?php 
+    $sql = "SELECT Total_rock, Total_paper, Total_scissors, Total_win, Total_lose, Total_tie, Total_games FROM users WHERE userid = $userid";
+    
+    $result = $conn->query($sql);
+    $stats = $result->fetch_assoc();
+    
+    echo "Wins: " . $stats["Total_win"] . "<br>";
+    echo "Losses: " . $stats["Total_lose"] . "<br>";
+    echo "Ties: " . $stats["Total_tie"] . "<br>";
+    echo "Rock: " . $stats["Total_rock"] . "<br>";
+    echo "Paper: " . $stats["Total_paper"] . "<br>";
+    echo "Scissors: " . $stats["Total_scissors"] . "<br>";
 
     $sql = "SELECT * from gamestats
             INNER JOIN botstats ON gamestats.gameid = botstats.gameid

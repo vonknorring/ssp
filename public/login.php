@@ -20,6 +20,7 @@ if(password_verify($_POST["password"], $userdatafromdb["password"])){
 }
 ?>
 <form method="post">
+    skapa en profil/användare här:<a href="register.php">skapa användare</a>
     <p>logga-in</p>
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Passowrd">
