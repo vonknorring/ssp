@@ -16,36 +16,68 @@ $userid = $_SESSION["userid"];
     <title>profile</title>
 </head>
 <body>
-    Välkommen <?php echo $_SESSION["name"]; ?> här är din profil med statistik:
-    <br/>
-    spela här:<a href="game.php">SPELA<br></a>
-    logga ut här: <a href="logout.php">loggout<br></a>
-
-    <?php 
-    $sql = "SELECT Total_rock, Total_paper, Total_scissors, Total_win, Total_lose, Total_tie, Total_games FROM users WHERE userid = $userid";
+    <div id="profileStatsDiv">
+        <div id="Welcome">
+            Välkommen <?php echo $_SESSION["name"]; ?> här är din profil med statistik:
+            <br/>
+            spela här:<a href="game.php">SPELA<br></a>
+            logga ut här: <a href="logout.php">loggout<br></a>
+        </div>
+        <?php 
+        $sql = "SELECT Total_rock, Total_paper, Total_scissors, Total_win, Total_lose, Total_tie, Total_games FROM users WHERE userid = $userid";
+        
+        $result = $conn->query($sql);
+        $stats = $result->fetch_assoc();
+        ?>
+        <div id="StatsText">
+            <div id="StatsWLT">
+                <?php
+                    echo "Wins: " . $stats["Total_win"] . "<br>";
+                    echo "Losses: " . $stats["Total_lose"] . "<br>";
+                    echo "Ties: " . $stats["Total_tie"] . "<br>";
+                ?>
+            </div>
+            <br>
+            <div id="StatsRPS">
+                <?php
+                    echo "Rock: " . $stats["Total_rock"] . "<br>";
+                    echo "Paper: " . $stats["Total_paper"] . "<br>";
+                    echo "Scissors: " . $stats["Total_scissors"] . "<br>";
+                ?>
+            </div>
+        </div>
+        <?php
+        $sql = "SELECT * from gamestats
+                INNER JOIN botstats ON gamestats.gameid = botstats.gameid
+                WHERE gamestats.userid={$_SESSION["userid"]} 
+                ORDER BY gamestats.gameid DESC LIMIT 5";
+        $results = $conn->query($sql);
+        ?>
+    </div>
+    <?php
     
-    $result = $conn->query($sql);
-    $stats = $result->fetch_assoc();
-    
-    echo "Wins: " . $stats["Total_win"] . "<br>";
-    echo "Losses: " . $stats["Total_lose"] . "<br>";
-    echo "Ties: " . $stats["Total_tie"] . "<br>";
-    echo "Rock: " . $stats["Total_rock"] . "<br>";
-    echo "Paper: " . $stats["Total_paper"] . "<br>";
-    echo "Scissors: " . $stats["Total_scissors"] . "<br>";
+        if($results->num_rows > 0) {
+            while($gameres = $results->fetch_assoc()){
+                echo "<br/>";
+                if($gameres["rock"] == 1) $playerChoice = "Sten";
+                elseif($gameres["paper"] == 1) $playerChoice = "Påse";
+                else $playerChoice = "Sax";
+                echo "<br/>";
+                if($gameres["b-rock"] == 1) $botChoice = "Sten";
+                elseif($gameres["b-paper"] == 1) $botChoice = "Påse";
+                else $botChoice = "Sax";
+                if($gameres["win"] == 1) $resultText = "Du vann!";
+                elseif($gameres["lose"] == 1) $resultText = "Du förlorade!";
+                else $resultText = "Lika!";
 
-    $sql = "SELECT * from gamestats
-            INNER JOIN botstats ON gamestats.gameid = botstats.gameid
-            WHERE gamestats.userid={$_SESSION["userid"]} 
-            ORDER BY gamestats.gameid DESC LIMIT 5";
-    $results = $conn->query($sql);
-    if($results->num_rows > 0) {
-        while($gameres = $results->fetch_assoc()){
-            echo "<br/>";
-            var_dump($gameres);
-            
+                echo "<div id='GameHistory'>
+                    <strong>Game #{$gameres['gameid']}</strong><br>
+                    Du: $playerChoice<br>
+                    Bot: $botChoice<br>
+                    $resultText
+                </div>";
+            }
         }
-    }
     
     ?>
 

@@ -1,0 +1,52 @@
+body {
+  background-color: yellow;
+  text-align: center;
+}
+body h1 {
+  color: black;
+}
+body {
+  font-size: clamp(14px, 2vw, 24px);
+}
+
+#profileStatsDiv {
+  background: blue;
+  border: 5px, solid, black;
+  border-radius: 30px;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+#StatsText {
+  margin-top: 10px;
+  background: whitesmoke;
+  text-align: left;
+  width: 96.5%;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+#StatsWLT {
+  margin: 10px;
+}
+
+#StatsRPS {
+  margin: 10px;
+}
+
+#GameHistory {
+  background: red;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 5px, solid, black;
+  text-align: left;
+  padding-left: 25px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}/*# sourceMappingURL=style.css.map */
