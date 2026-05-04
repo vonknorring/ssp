@@ -9,11 +9,10 @@ body {
     font-size: clamp(14px, 2vw, 24px);
 }
 
-div{
-}
+//här nedan är styleing för profile.php
 #profileStatsDiv{
-    background: blue;
-    border: 5px, solid, black;
+    background: $thirdColor;
+    border: 5px, solid, $mainColor;
     border-radius: 30px;
     width: 80%;
     max-width: 600px;
@@ -32,12 +31,15 @@ div{
 #StatsWLT{
     margin: 10px;
 }
-#StatsRPS{
+#StatsSPS{
+    margin: 10px;
+}
+#StatsWS{
     margin: 10px;
 }
 
 #GameHistory{
-    background: red;
+    background: $thirdColor;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -50,3 +52,56 @@ div{
     padding-bottom: 10px;
     padding-top: 10px;
 }
+
+//här nedan är styleing för game.php
+#resultDiv{
+    background: $thirdColor;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid $mainColor;
+}
+#GameForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vw;
+    button{
+        background: none;
+        border: none;
+        text-shadow: 2px 2px 3px $mainColor;
+        width: 120px;
+        height: 120px;
+        font-size: 60px;
+        margin: 15px;
+        cursor: pointer;
+        &:hover {
+            
+            transform: scale(2);
+        }
+    }
+}
+
+.playagain {
+    display: inline-block;
+    background: $mainColor;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 25px;
+    margin: 10px 5px;
+    cursor: pointer;
+    font-size: clamp(14px, 2vw, 18px);
+    text-decoration: none;
+    max-width: 300px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    &:hover {
+        opacity: 0.8;
+        transform: scale(1.01);
+    }
+}
+//login/skapaanvändare sida styleing nedan

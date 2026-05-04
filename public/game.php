@@ -54,12 +54,17 @@ if(isset($_POST["choice"])){
 
     if($outcome == "win"){
     $conn->query("UPDATE users SET Total_win = Total_win + 1 WHERE userid = $userid");
+    $conn->query("UPDATE users SET WinStreak = WinStreak + 1 WHERE userid = $userid");
+    $conn->query("UPDATE users SET Best_WinStreak = WinStreak WHERE userid = $userid AND WinStreak > Best_WinStreak");
     }
     elseif($outcome == "lose"){
         $conn->query("UPDATE users SET Total_lose = Total_lose + 1 WHERE userid = $userid");
+        $conn->query("UPDATE users SET WinStreak = 0 WHERE userid = $userid");
+
     }
     else {
         $conn->query("UPDATE users SET Total_tie = Total_tie + 1 WHERE userid = $userid");
+        $conn->query("UPDATE users SET WinStreak = 0 WHERE userid = $userid");
     }
 
     $conn->query("UPDATE users SET Total_games = Total_games + 1 WHERE userid = $userid");
@@ -70,12 +75,23 @@ if(isset($_POST["choice"])){
     // gör ett nytt mysql req
     // UPDATE table SET field = field + 1 WHERE id = 1
     
-$sql = "SELECT * FROM gamestats WHERE gameid=$last_id";
+if($player == "rock") $playerText = "Sten";
+elseif($player == "paper") $playerText = "Påse";
+else $playerText = "Sax";
 
-    
+if($bot == "rock") $botText = "Sten";
+elseif($bot == "paper") $botText = "Påse";
+else $botText = "Sax";
 
-$result = $conn->query($sql);
-var_dump($result->fetch_assoc());
+if($outcome == "win") $outcomeText = "Du vann";
+elseif($outcome == "lose") $outcomeText = "Du förlorade";
+else $outcomeText = "Lika";
+
+echo "<div id='resultDiv'>
+    <p>Du valde: $playerText</p>
+    <p>Botten valde: $botText</p>
+    <p>$outcomeText</p>
+</div>";
 
 $hidden = "playagain";
 
@@ -89,14 +105,14 @@ $hidden = "playagain";
 <style>
     a{ display:none; }
     a.playagain { display:block; }
-    form.playagain { display:none; }
+    #GameForm.playagain { display:none; }
 </style>
 
 
-<a href="#" class="<?php echo $hidden; ?>">play again?</a>
+<a href="/game.php" class="<?php echo $hidden; ?>">play again?</a>
 <a href="/profile.php" class="<?php echo $hidden; ?>">Till profilen</a>
-<form class="<?php echo $hidden; ?>" method="post">
-    <button name="choice" value="rock">Sten</button>
-    <button name="choice" value="paper">Påse</button>
-    <button name="choice" value="scissors">sax</button>
+<form id="GameForm" class="<?php echo $hidden; ?>" method="post">
+        <button name="choice" value="rock">🪨</button>
+        <button name="choice" value="paper">📄</button>
+        <button name="choice" value="scissors">✂️</button>
 </form>

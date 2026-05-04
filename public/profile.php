@@ -24,7 +24,7 @@ $userid = $_SESSION["userid"];
             logga ut här: <a href="logout.php">loggout<br></a>
         </div>
         <?php 
-        $sql = "SELECT Total_rock, Total_paper, Total_scissors, Total_win, Total_lose, Total_tie, Total_games FROM users WHERE userid = $userid";
+        $sql = "SELECT Total_rock, Total_paper, Total_scissors, Total_win, Total_lose, Total_tie, Total_games, WinStreak, Best_WinStreak FROM users WHERE userid = $userid";
         
         $result = $conn->query($sql);
         $stats = $result->fetch_assoc();
@@ -32,17 +32,23 @@ $userid = $_SESSION["userid"];
         <div id="StatsText">
             <div id="StatsWLT">
                 <?php
-                    echo "Wins: " . $stats["Total_win"] . "<br>";
-                    echo "Losses: " . $stats["Total_lose"] . "<br>";
-                    echo "Ties: " . $stats["Total_tie"] . "<br>";
+                    echo "Vinster: " . $stats["Total_win"] . "<br>";
+                    echo "Förluster: " . $stats["Total_lose"] . "<br>";
+                    echo "Lika: " . $stats["Total_tie"] . "<br>";
                 ?>
             </div>
             <br>
-            <div id="StatsRPS">
+            <div id="StatsSPS">
                 <?php
-                    echo "Rock: " . $stats["Total_rock"] . "<br>";
-                    echo "Paper: " . $stats["Total_paper"] . "<br>";
-                    echo "Scissors: " . $stats["Total_scissors"] . "<br>";
+                    echo "Sten: " . $stats["Total_rock"] . "<br>";
+                    echo "Påse: " . $stats["Total_paper"] . "<br>";
+                    echo "Sax: " . $stats["Total_scissors"] . "<br>";
+                ?>
+            </div>
+            <div id="StatsWS">
+                <?php
+                    echo "Win Streak: " . $stats["WinStreak"] . "<br>";
+                    echo "Best Win Streak: " . $stats["Best_WinStreak"] . "<br>";
                 ?>
             </div>
         </div>
