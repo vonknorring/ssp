@@ -30,25 +30,38 @@ $userid = $_SESSION["userid"];
         $stats = $result->fetch_assoc();
         ?>
         <div id="StatsText">
-            <div id="StatsWLT">
-                <?php
-                    echo "Vinster: " . $stats["Total_win"] . "<br>";
-                    echo "Förluster: " . $stats["Total_lose"] . "<br>";
-                    echo "Lika: " . $stats["Total_tie"] . "<br>";
-                ?>
+            <div id="StatsWLTSPS">
+                <div id="StatsWLT">
+                    <?php
+                        echo "Vinster: " . $stats["Total_win"] . "<br>";
+                        echo "Förluster: " . $stats["Total_lose"] . "<br>";
+                        echo "Lika: " . $stats["Total_tie"] . "<br>";
+                    ?>
+                </div>
+                <br>
+                <div id="StatsSPS">
+                    <?php
+                        echo "Sten: " . $stats["Total_rock"] . "<br>";
+                        echo "Påse: " . $stats["Total_paper"] . "<br>";
+                        echo "Sax: " . $stats["Total_scissors"] . "<br>";
+                    ?>
+                </div>
+                <br>
+                <div id="StatsWS">
+                    <?php
+                        echo "Win Streak: " . $stats["WinStreak"] . "<br>";
+                        echo "Bästa Win Streak: " . $stats["Best_WinStreak"] . "<br>";
+                    ?>
+                </div>
             </div>
-            <br>
-            <div id="StatsSPS">
+            <div id="leaderboard">
+                <h3>Leaderboard För Bästa Win Streaks</h3>
                 <?php
-                    echo "Sten: " . $stats["Total_rock"] . "<br>";
-                    echo "Påse: " . $stats["Total_paper"] . "<br>";
-                    echo "Sax: " . $stats["Total_scissors"] . "<br>";
-                ?>
-            </div>
-            <div id="StatsWS">
-                <?php
-                    echo "Win Streak: " . $stats["WinStreak"] . "<br>";
-                    echo "Best Win Streak: " . $stats["Best_WinStreak"] . "<br>";
+                $lbsql = "SELECT username, Best_WinStreak FROM users ORDER BY Best_WinStreak DESC LIMIT 5";
+                $lbresult = $conn->query($lbsql);
+                while($row = $lbresult->fetch_assoc()){
+                    echo "<p>" . $row["username"] . ": " . $row["Best_WinStreak"] . "</p>";
+                }
                 ?>
             </div>
         </div>
