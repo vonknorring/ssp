@@ -1,5 +1,9 @@
 <?php include "../header.php"; ?>
-
+<?php 
+if(isset($_SESSION['userid'])){
+    header("Location: /profile.php");
+    exit;
+}?>
 <body>
     skapa en användare/profil
     <form action="createuser.php" method="post">

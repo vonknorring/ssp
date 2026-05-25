@@ -1,5 +1,9 @@
 <?php include "../header.php"; ?>
 <?php
+if(isset($_SESSION['userid'])){
+    header("Location: /profile.php");
+    exit;
+}
 if($_POST){
     $user = $_POST["username"];
     $email = $_POST["email"];

@@ -64,6 +64,11 @@ $userid = $_SESSION["userid"];
                 }
                 ?>
             </div>
+            <br>
+            <div id="botstats">
+                <h3>Bot-stats</h3>
+                
+            </div>
         </div>
         <?php
         $sql = "SELECT * from gamestats

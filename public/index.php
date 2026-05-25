@@ -1,8 +1,11 @@
+<?php
+    if(!isset($_SESSION['userid'])){
+    header("Location: /login.php");
+    exit;
+}
+?>
 <?php include "../header.php"; ?>
 
-<?php
-    
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
