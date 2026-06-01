@@ -126,4 +126,8 @@ body {
 #leaderboard h2 {
   color: black;
   margin-bottom: 10px;
+}
+
+.Welcome a {
+  border: 2px solid black;
 }/*# sourceMappingURL=style.css.map */

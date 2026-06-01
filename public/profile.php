@@ -7,6 +7,8 @@ if(!isset($_SESSION['userid'])){
 }
 $userid = $_SESSION["userid"];
 
+$totalGames = 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,8 @@ $userid = $_SESSION["userid"];
     <div id="profileStatsDiv">
         <div id="Welcome">
             Välkommen <?php echo $_SESSION["name"]; ?> här är din profil med statistik:
-            <br/>
+            <br>
+            <br>
             spela här:<a href="game.php">SPELA<br></a>
             logga ut här: <a href="logout.php">loggout<br></a>
         </div>
@@ -28,6 +31,7 @@ $userid = $_SESSION["userid"];
         
         $result = $conn->query($sql);
         $stats = $result->fetch_assoc();
+        $totalGames = $stats["Total_games"];
         ?>
         <div id="StatsText">
             <div id="StatsWLTSPS">
@@ -36,6 +40,7 @@ $userid = $_SESSION["userid"];
                         echo "Vinster: " . $stats["Total_win"] . "<br>";
                         echo "Förluster: " . $stats["Total_lose"] . "<br>";
                         echo "Lika: " . $stats["Total_tie"] . "<br>";
+                        echo "Games: " . $stats["Total_games"] . "<br>";
                     ?>
                 </div>
                 <br>
@@ -74,7 +79,7 @@ $userid = $_SESSION["userid"];
         $sql = "SELECT * from gamestats
                 INNER JOIN botstats ON gamestats.gameid = botstats.gameid
                 WHERE gamestats.userid={$_SESSION["userid"]} 
-                ORDER BY gamestats.gameid DESC LIMIT 5";
+                ORDER BY gamestats.gameid DESC LIMIT 10";
         $results = $conn->query($sql);
         ?>
     </div>
@@ -95,11 +100,13 @@ $userid = $_SESSION["userid"];
                 else $resultText = "Lika!";
 
                 echo "<div id='GameHistory'>
-                    <strong>Game #{$gameres['gameid']}</strong><br>
+                    <strong>Game #{$totalGames}</strong><br>
                     Du: $playerChoice<br>
                     Bot: $botChoice<br>
                     $resultText
                 </div>";
+
+                $totalGames = $totalGames - 1;
             }
         }
     
